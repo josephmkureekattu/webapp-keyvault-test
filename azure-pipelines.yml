@@ -36,7 +36,7 @@ stages:
         buildContext: '$(System.DefaultWorkingDirectory)'
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
-          $(tag)
+          latest
     - task: PublishBuildArtifacts@1
       inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
