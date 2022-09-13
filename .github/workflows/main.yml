@@ -5,7 +5,7 @@ on:
     tags: ["v*.*.*"]
 
 env:
-  IMAGE_NAME: azurekeyvault-test-api
+  IMAGE_NAME: azurekeyvaulttestapi
 
 jobs:
   build:
