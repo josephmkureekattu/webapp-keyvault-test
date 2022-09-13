@@ -16,4 +16,4 @@ spec:
         - name: azurekeyvaulttestapi 
           image: jspcontainerregistry.azurecr.io/azurekeyvaulttestapi
           ports:
-          - containerPort: 80
+          - containerPort: 443
