@@ -1,0 +1,78 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azurekvtestapp1
+  labels:
+    app: azurekvtestapp1
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  minReadySeconds: 5
+  selector:
+    matchLabels:
+      app: azurekvtestapp1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 2
+  template:
+    metadata:
+      labels:
+        app: azurekvtestapp1
+        tier: azurekvtestapp1
+    spec:
+      containers:
+      - name: azurekvtestapp1
+        image: "jspcontainerregistry/azurekeyvaulttestapi:latest"
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "125m"
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 5       
+        env:
+        - name: PORT
+          value: "8080"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azurekvtestapp1
+  labels:
+    app: azurekvtestapp1
+    tier: azurekvtestapp1
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+  selector:
+    app: azurekvtestapp1
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: azurekvtestapp1
+  labels:
+    app: azurekvtestapp1
+    tier: backend
+spec:
+  backend:
+    serviceName: azurekvtestapp1
+    servicePort: 8080
