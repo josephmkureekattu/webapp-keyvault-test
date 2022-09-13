@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: josephmkureekattuwebappkeyvaulttest 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: josephmkureekattuwebappkeyvaulttest
+  template:
+    metadata:
+      labels:
+        app: josephmkureekattuwebappkeyvaulttest 
+    spec:
+      containers:
+        - name: josephmkureekattuwebappkeyvaulttest 
+          image: jspcontainerregistry.azurecr.io/josephmkureekattuwebappkeyvaulttest
+          ports:
+          - containerPort: 80
