@@ -1,19 +1,19 @@
 apiVersion : apps/v1
 kind: Deployment
 metadata:
-  name: azurekeyvaulttestapi 
+  name: azurekeyvaulttestapi123 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: azurekeyvaulttestapi
+      app: azurekeyvaulttestapi123
   template:
     metadata:
       labels:
-        app: azurekeyvaulttestapi 
+        app: azurekeyvaulttestapi123 
     spec:
       containers:
-        - name: azurekeyvaulttestapi 
+        - name: azurekeyvaulttestapi123 
           image: jspcontainerregistry.azurecr.io/azurekeyvaulttestapi
           ports:
           - containerPort: 443
