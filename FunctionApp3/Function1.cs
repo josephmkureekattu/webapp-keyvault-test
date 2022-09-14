@@ -8,6 +8,9 @@ using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Persistence;
+using Core.Entities;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace FunctionApp3
 {
@@ -40,7 +43,7 @@ namespace FunctionApp3
             log.LogInformation($"Saying hello to {configuration["AzureKerVaultUrl"]}.");
             using (var context = new AppDbContext(configuration))
             {
-                
+                var mno = context.Author.Where(x => x.Name == "dsytfgy342r53i" + System.DateTime.UtcNow.ToString()).ToList();
                 
             }
 
