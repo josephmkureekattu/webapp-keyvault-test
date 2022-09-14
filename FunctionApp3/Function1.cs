@@ -41,7 +41,7 @@ namespace FunctionApp3
             using (var context = new AppDbContext(configuration))
             {
                 
-                var mno = context.Author.ToList();
+                
             }
 
             return $"Hello {configuration["AzureKerVaultUrl"]}!";
