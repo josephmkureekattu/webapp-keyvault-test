@@ -17,7 +17,7 @@ variables:
   vmImageName: 'windows-2022'
 
   # Working Directory
-  workingDirectory: '$(System.DefaultWorkingDirectory)/FunctionApp1'
+  workingDirectory: '$(System.DefaultWorkingDirectory)/FunctionApp3'
 
 stages:
 - stage: Build
