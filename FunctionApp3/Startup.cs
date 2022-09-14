@@ -22,7 +22,7 @@ namespace FunctionApp3
             builder.ConfigurationBuilder.AddJsonFile(Path.Combine(context.ApplicationRootPath, "local.settings.json"), true, reloadOnChange: true);
             builder.ConfigurationBuilder.AddJsonFile(Path.Combine(context.ApplicationRootPath, "appsettings.json"), false, reloadOnChange: true);
             builder.ConfigurationBuilder.AddEnvironmentVariables();
-            var configuration = context.Configuration;
+            var configuration = builder.ConfigurationBuilder.Build();
             
             var keyVaultEndpoint = new Uri($"https://{configuration["AzureKerVaultUrl"]}.vault.azure.net/");
             builder.ConfigurationBuilder.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
@@ -32,14 +32,14 @@ namespace FunctionApp3
         public override void Configure(IFunctionsHostBuilder builder)
         {
             var context = builder.GetContext();
-            builder.Services.AddDbContext<AppDbContext>(options =>
-               options.UseSqlServer(
-                   b =>
-                   {
-                       b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
-                       b.CommandTimeout(1800);
+            //builder.Services.AddDbContext<AppDbContext>(options =>
+            //   options.UseSqlServer(
+            //       b =>
+            //       {
+            //           b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
+            //           b.CommandTimeout(1800);
 
-                   })); // will be created in web project root
+            //       })); // will be created in web project root
         }
     }
 }
