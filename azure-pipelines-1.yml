@@ -54,7 +54,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'azurekeyvaulttestapi.newdeploynamespace'
+    environment: 'latestjspkubecluster.newdeploynamespace'
     strategy:
       runOnce:
         deploy:
