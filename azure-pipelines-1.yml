@@ -54,7 +54,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'josephmkureekattuwebappkeyvaulttest.newdeploynamespace'
+    environment: 'azurekeyvaulttestapi.newdeploynamespace'
     strategy:
       runOnce:
         deploy:
