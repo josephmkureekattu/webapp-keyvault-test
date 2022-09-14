@@ -54,7 +54,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'latestkubeclusterjsp.latestdeploy'
+    environment: 'latestkubeclusterjsp.default'
     strategy:
       runOnce:
         deploy:
