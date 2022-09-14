@@ -37,6 +37,12 @@ namespace FunctionApp3
         public string SayHello([ActivityTrigger] string name, ILogger log)
         {
             log.LogInformation($"Saying hello to {configuration["AzureKerVaultUrl"]}.");
+            using (var context = new AppDbContext(configuration))
+            {
+                
+                var mno = context.Author.ToList();
+            }
+
             return $"Hello {configuration["AzureKerVaultUrl"]}!";
         }
 
