@@ -11,6 +11,8 @@ using Persistence;
 using Core.Entities;
 
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace FunctionApp3
 {
@@ -43,8 +45,11 @@ namespace FunctionApp3
             log.LogInformation($"Saying hello to {configuration["AzureKerVaultUrl"]}.");
             using (var context = new AppDbContext(configuration))
             {
+                //context.Author.Add(new Author { Name = "dsytfgy342r53i" });
+                //context.SaveChanges();
                 var mno = context.Author.Where(x => x.Name == "dsytfgy342r53i" + System.DateTime.UtcNow.ToString()).ToList();
-                
+                if(mno != null)
+                    log.LogInformation($"S JSON {JsonConvert.SerializeObject(mno)}.");
             }
 
             return $"Hello {configuration["AzureKerVaultUrl"]}!";
