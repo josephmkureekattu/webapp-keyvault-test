@@ -28,6 +28,7 @@ namespace FunctionApp3
                 var keyVaultEndpoint = new Uri($"https://{configuration["AzureKerVaultUrl"]}.vault.azure.net/");
                 builder.ConfigurationBuilder.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
             }
+            builder.ConfigurationBuilder.Build();
             base.ConfigureAppConfiguration(builder);
         }
 
