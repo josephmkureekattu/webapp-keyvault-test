@@ -40,6 +40,9 @@ namespace FunctionApp3
                        b.CommandTimeout(1800);
 
                    })); // will be created in web project root
+            var serviceProvider = builder.Services.BuildServiceProvider();
+                var dataContext = serviceProvider.GetRequiredService<AppDbContext>();
+                dataContext.Database.Migrate();
         }
     }
 }
