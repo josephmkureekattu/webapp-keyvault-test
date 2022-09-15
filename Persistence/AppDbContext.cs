@@ -34,7 +34,7 @@ namespace Persistence
         {
             //logger.LogError("connection : " + configuration["Connection"]);
             dBContextOptionsBuilder.UseSqlServer(
-                 configuration["DBConnection"],
+                 configuration["DBConnectionString"],
                   x => x.UseNetTopologySuite().EnableRetryOnFailure());
 
             //dBContextOptionsBuilder.UseCosmos(
