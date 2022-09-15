@@ -23,12 +23,12 @@ namespace FunctionApp3
             builder.ConfigurationBuilder.AddJsonFile(Path.Combine(context.ApplicationRootPath, "appsettings.json"), false, reloadOnChange: true);
             builder.ConfigurationBuilder.AddEnvironmentVariables();
             var configuration = builder.ConfigurationBuilder.Build();
-            if (configuration["AZURE_FUNCTIONS_ENVIRONMENT"] != null && configuration["AZURE_FUNCTIONS_ENVIRONMENT"] != "Development")
-            {
+            //if (configuration["AZURE_FUNCTIONS_ENVIRONMENT"] != null && configuration["AZURE_FUNCTIONS_ENVIRONMENT"] != "Development")
+            //{
                 var keyVaultEndpoint = new Uri($"https://{configuration["AzureKerVaultUrl"]}.vault.azure.net/");
                 builder.ConfigurationBuilder.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
-            }
-            builder.ConfigurationBuilder.Build();
+            //}
+            //builder.ConfigurationBuilder.Build();
             base.ConfigureAppConfiguration(builder);
         }
 
