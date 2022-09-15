@@ -35,7 +35,7 @@ namespace FunctionApp3
             var outputs = new List<string>();
 
             // Replace "hello" with the name of your Durable Activity Function.
-            await context.CallActivityAsync<string>("Function1_Hello", "Tokyo");
+            await context.CallActivityAsync<string>("Function1_Hello", ("Tokyo", "sdf"));
             var file = await context.CallActivityAsync<string>("Download_File", "Seattle");
 
 
@@ -45,15 +45,15 @@ namespace FunctionApp3
         }
 
         [FunctionName("Function1_Hello")]
-        public async Task<string> SayHello([ActivityTrigger] string name, ILogger log)
+        public async Task<string> SayHello([ActivityTrigger] (string name, string value) xyzData, ILogger log)
         {
             log.LogInformation($"Saying hello to {configuration["AzureKerVaultUrl"]}.");
 
             using (var context = new AppDbContext(configuration))
             {
-                context.Author.Add(new Author { Name = name });
+                context.Author.Add(new Author { Name = xyzData.name });
                 context.SaveChanges();
-                var mno = context.Author.Where(x => x.Name == name + System.DateTime.UtcNow.ToString()).ToList();
+                var mno = context.Author.Where(x => x.Name == xyzData.name + System.DateTime.UtcNow.ToString()).ToList();
                 if(mno != null)
                     log.LogInformation($"S JSON {JsonConvert.SerializeObject(mno)}.");
             }
