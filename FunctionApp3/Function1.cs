@@ -13,6 +13,10 @@ using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Newtonsoft.Json;
+using Azure;
+using Azure.Storage.Blobs;
+using System;
+using System.IO;
 
 namespace FunctionApp3
 {
@@ -31,28 +35,43 @@ namespace FunctionApp3
             var outputs = new List<string>();
 
             // Replace "hello" with the name of your Durable Activity Function.
-            outputs.Add(await context.CallActivityAsync<string>("Function1_Hello", "Tokyo"));
-            outputs.Add(await context.CallActivityAsync<string>("Function1_Hello", "Seattle"));
-            outputs.Add(await context.CallActivityAsync<string>("Function1_Hello", "London"));
+            await context.CallActivityAsync<string>("Function1_Hello", "Tokyo");
+            var file = await context.CallActivityAsync<string>("Download_File", "Seattle");
 
-            // returns ["Hello Tokyo!", "Hello Seattle!", "Hello London!"]
-            return outputs;
+
+
+            return new string[] { "Hello Tokyo!", "Hello Seattle!", "Hello London!" }.ToList();
+            //return file;
         }
 
         [FunctionName("Function1_Hello")]
-        public string SayHello([ActivityTrigger] string name, ILogger log)
+        public async Task<string> SayHello([ActivityTrigger] string name, ILogger log)
         {
             log.LogInformation($"Saying hello to {configuration["AzureKerVaultUrl"]}.");
+
             using (var context = new AppDbContext(configuration))
             {
-                context.Author.Add(new Author { Name = "dsytfgy342r53i" });
+                context.Author.Add(new Author { Name = name });
                 context.SaveChanges();
-                var mno = context.Author.Where(x => x.Name == "dsytfgy342r53i" + System.DateTime.UtcNow.ToString()).ToList();
+                var mno = context.Author.Where(x => x.Name == name + System.DateTime.UtcNow.ToString()).ToList();
                 if(mno != null)
                     log.LogInformation($"S JSON {JsonConvert.SerializeObject(mno)}.");
             }
 
             return $"Hello {configuration["AzureKerVaultUrl"]}!";
+        }
+
+        [FunctionName("Download_File")]
+        public async Task<byte[]> DownloadFile([ActivityTrigger] string name, ILogger log)
+        {
+            log.LogInformation($"Download File.");
+
+            var sasCredential = new AzureSasCredential(configuration["Blob:SASToken"]);
+            var uri = new Uri($"{configuration["Blob:SASUrl"]}{configuration["Blob:Path"]}/{"test.txt"}");
+            var client = new BlobClient(uri, sasCredential);
+            var memoryStream = new MemoryStream();
+            await client.DownloadToAsync(memoryStream);
+            return memoryStream.ToArray();
         }
 
         [FunctionName("Function1_HttpStart")]
